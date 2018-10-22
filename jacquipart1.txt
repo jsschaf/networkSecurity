@@ -1,0 +1,138 @@
+1. 
+
+Device 1:
+Using a DNS filter, there are only 3 different sources:
+Ip Addresses:
+10.0.2.1
+10.0.2.2
+10.0.2.3
+
+To get MAC address: statistics->conversations->ethernet
+or statistics ->endpoints -> ethernet
+
+Can see these when you inspect a packet ethernet II src address
+
+10.0.2.1 	00:26:08:e5:66:07 (apple_e5)
+10.0.2.2 	04:0c:ce:d8:0f:fa (apple_d8)
+10.0.2.3	8c:a9:82:50:f0:a6 (intelcore_50)
+
+2. 
+
+If you change preferences on wireshark to display resolved addresses for each network, you can see a list of most websites that have had the most packets exchanged. 
+here are some of them:
+www.aljazeera.com.c.itmdb.net
+a1467.g2.akamai.net
+www.google.com
+www-google-analytics.l.google.com
+arstechnicarp.cachefly.net
+www.facebook.com
+ctools.umich.edu
+weblogin.umich.edu
+www.pnc.com
+bits-lb.eqiad.wikimedia.org
+upload-lb.pmtpa.wikimedia.org
+orig-10004.twitter.cotcdn.net
+e3821.dspe1.akamaiedge.net
+a1920.dsw4.akamai.net
+
+akamai is a cloud service provider, and many of these addresses appear subdomains of larger sites, like umich.edu. 
+This seems like a LAN network, which is a group of devices that share a line or wireless link to a server. 
+
+A local area network (LAN) is a group of computers and associated devices in the same location that share a common communications line or wireless link to a server. This could likely be the network traffic of a home or small office building. 
+
+3. 
+10.0.2.2 connects to an FTP server. 
+a) It connects to destination 194.109.21.66. This has a resolved address of dl.xs4all.nl.
+b) If active, the client will issue the PORt command, if passive, the client will issue the PASV command.
+This client issues a “Request: PORT 10,0,2,2,199,51”, Therefore it is active FTP. 
+
+c)This FTP protocol tells us a lot about what the client was doing. We can see the reponse of the website, such as the “Welcome to the XS4ALL arhive” message and instructions to login as anonymous. We can also see that the clients email address will be the password. We can then see the users USER - “laticia.langhans” and PASS - “goblue3859”. However this was an incorrect password. This leak of information is a huge vulnerability as attackers could gain access to privileged information.  
+d) SFTP is secure file transfer protocol or SSH File Transfer Protocol and is a good alternative. 
+FTPS is an extension onto FTP that adds support for transport layer security (TLS) and is another secure alternative. 
+
+4. 
+a)https = port443.
+Using the filter tcp.port == 443 && ip.dst == 74.125.225.128 we can see all access from 10.0.2.2 to youtube.com through https. 
+The same client as in (3) connects to the domain youtube.com. 
+b) No, the destination IP address will always be visible in a TCP connection. We can use that to look up the domain name using resolved addresses, which tells us that the domain is youtube.com. 
+c)
+Packet:
+2219	28.782045	10.0.2.2	youtube.com	TLSv1.1	247	Client Hello
+
+
+follow secure sockets layer -> handshake protocol -> cipher suites
+
+
+Cipher Suites (36 suites)
+- all use SHA, some 256 some 128, one uses md5
+    Cipher Suite: TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA (0xc00a)
+    Cipher Suite: TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA (0xc014)
+    Cipher Suite: TLS_DHE_RSA_WITH_CAMELLIA_256_CBC_SHA (0x0088)
+    Cipher Suite: TLS_DHE_DSS_WITH_CAMELLIA_256_CBC_SHA (0x0087)
+    Cipher Suite: TLS_DHE_RSA_WITH_AES_256_CBC_SHA (0x0039)
+    Cipher Suite: TLS_DHE_DSS_WITH_AES_256_CBC_SHA (0x0038)
+    Cipher Suite: TLS_ECDH_RSA_WITH_AES_256_CBC_SHA (0xc00f)
+    Cipher Suite: TLS_ECDH_ECDSA_WITH_AES_256_CBC_SHA (0xc005)
+    Cipher Suite: TLS_RSA_WITH_CAMELLIA_256_CBC_SHA (0x0084)
+    Cipher Suite: TLS_RSA_WITH_AES_256_CBC_SHA (0x0035)
+    Cipher Suite: TLS_ECDHE_ECDSA_WITH_RC4_128_SHA (0xc007)
+    Cipher Suite: TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA (0xc009)
+    Cipher Suite: TLS_ECDHE_RSA_WITH_RC4_128_SHA (0xc011)
+    Cipher Suite: TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA (0xc013)
+    Cipher Suite: TLS_DHE_RSA_WITH_CAMELLIA_128_CBC_SHA (0x0045)
+    Cipher Suite: TLS_DHE_DSS_WITH_CAMELLIA_128_CBC_SHA (0x0044)
+    Cipher Suite: TLS_DHE_DSS_WITH_RC4_128_SHA (0x0066)
+    Cipher Suite: TLS_DHE_RSA_WITH_AES_128_CBC_SHA (0x0033)
+    Cipher Suite: TLS_DHE_DSS_WITH_AES_128_CBC_SHA (0x0032)
+    Cipher Suite: TLS_ECDH_RSA_WITH_RC4_128_SHA (0xc00c)
+    Cipher Suite: TLS_ECDH_RSA_WITH_AES_128_CBC_SHA (0xc00e)
+    Cipher Suite: TLS_ECDH_ECDSA_WITH_RC4_128_SHA (0xc002)
+    Cipher Suite: TLS_ECDH_ECDSA_WITH_AES_128_CBC_SHA (0xc004)
+    Cipher Suite: TLS_RSA_WITH_SEED_CBC_SHA (0x0096)
+    Cipher Suite: TLS_RSA_WITH_CAMELLIA_128_CBC_SHA (0x0041)
+    Cipher Suite: TLS_RSA_WITH_RC4_128_SHA (0x0005)
+    Cipher Suite: TLS_RSA_WITH_RC4_128_MD5 (0x0004)
+    Cipher Suite: TLS_RSA_WITH_AES_128_CBC_SHA (0x002f)
+    Cipher Suite: TLS_ECDHE_ECDSA_WITH_3DES_EDE_CBC_SHA (0xc008)
+    Cipher Suite: TLS_ECDHE_RSA_WITH_3DES_EDE_CBC_SHA (0xc012)
+    Cipher Suite: TLS_DHE_RSA_WITH_3DES_EDE_CBC_SHA (0x0016)
+    Cipher Suite: TLS_DHE_DSS_WITH_3DES_EDE_CBC_SHA (0x0013)
+    Cipher Suite: TLS_ECDH_RSA_WITH_3DES_EDE_CBC_SHA (0xc00d)
+    Cipher Suite: TLS_ECDH_ECDSA_WITH_3DES_EDE_CBC_SHA (0xc003)
+    Cipher Suite: SSL_RSA_FIPS_WITH_3DES_EDE_CBC_SHA (0xfeff)
+    Cipher Suite: TLS_RSA_WITH_3DES_EDE_CBC_SHA (0x000a)
+
+
+d)
+Yes, Cipher Suite: TLS_RSA_WITH_RC4_128_MD5 (0x0004)is a cause for concern because it uses the md5 crypto algorithm, which is known to be broken. 
+
+e)
+Packet:
+2221	28.789898	youtube.com	10.0.2.2	TLSv1.1	1484	Server Hello
+
+The server responds Hello with:
+Cipher Suite: TLS_ECDHE_RSA_WITH_RC4_128_SHA (0xc011)
+
+5. 
+a)
+Using the filter ip.dst == 66.220.149.88, we get requests to Facebook.com. 
+After the user is logged in to Facebook, the requests are actually sent using the HTTP protocol as shown by the following packet:
+8149	62.409767	10.0.2.3	facebook.com	HTTP	859	GET / HTTP/1.1 
+b)
+By using the Hypertext Transfer Protocol, the requests is in plaintext and can be read by attackers. Data could therefore be intercepted by attackers. HTTPS encrypts data, which is why it is the preferred method. 
+c)
+Users should always send requests using HTTPS so that data is encrypted. Websites could also enforce this for security. 
+d)
+using the filter : http && ip.addr ==69.171.0.0/16
+we can see all http requests involving facebook.com
+at t = 62.61, user visited homepage
+t = 66.9, went onto facebook help center category photo
+t = 67.7, websearch: zillow
+t = 68.13, search Zakk Wylde’s profile
+t = 68.421992, user search: "Dr. Zakir Naik","photo":"http:\/\/profile.ak.fbcdn.net\/hprofile-ak-ash4\/276782_177413585624661_2070709763_q.jpg","path":"\/zakirnaik","cat
+t = 70.048, go onto Zakir Durumeri page
+t = 75, send a message to Zakir Durumeri, with attachment, no subject,body = My WiFi!
+t = 76, checked notifications
+
+
+
