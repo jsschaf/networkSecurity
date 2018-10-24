@@ -31,6 +31,7 @@ WIFI PASSWORD = EECS388-5bo
 Wi-Fi is connected to SuperDuperSketchyCorp-eecs388 and has the IP address 192.168.0.75.
 
 
+
 host superdupersketchycorp.com
 superdupersketchycorp.com has address 141.212.108.230
 
@@ -46,29 +47,6 @@ PORT   STATE SERVICE
 80/tcp open  http
 
 Nmap done: 1 IP address (1 host up) scanned in 4.71 seconds
-
-NMAP ON SDSC WIFI
-
-nmap 192.168.0.0/24
-Starting Nmap 7.70 ( https://nmap.org ) at 2018-10-22 14:25 EDT
-Nmap scan report for 192.168.0.1
-Host is up (0.015s latency).
-Not shown: 995 closed ports
-PORT      STATE SERVICE
-22/tcp    open  ssh
-23/tcp    open  telnet
-80/tcp    open  http
-1900/tcp  open  upnp
-20005/tcp open  btx
-
-Nmap scan report for 192.168.0.75
-Host is up (0.00028s latency).
-Not shown: 973 closed ports, 26 filtered ports
-PORT     STATE SERVICE
-3689/tcp open  rendezvous
-
-Nmap done: 256 IP addresses (2 hosts up) scanned in 22.19 seconds
-
 
 USED NETCAT TO SPOOF EMAIL
 
@@ -127,10 +105,8 @@ Nmap done: 256 IP addresses (3 hosts up) scanned in 32.07 seconds
 
 SSH INTO ONE OF THE PORTS
 
-ssh jsschaf@192.168.0.1
-    Incorrect password
-    
-ssh jsschaf@192.168.0.25 -p 22
+ssh jsschaf@192.168.0.25 - p 22
+
 jsschaf@192.168.0.25's password:
 Welcome to Ubuntu 16.04.4 LTS (GNU/Linux 4.13.0-1024-oem x86_64)
 

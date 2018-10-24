@@ -1,0 +1,96 @@
+Overview:
+
+The main objective of this penetration test is to determine the weaknesses of the networks and exposed systems of SuperDuperSketchyCorp. The goal is to test the security measures that SDSC has in place to protect their information and network, and to test them through various white hat attacks to analyze how the company can deal with malicious users trying to gain access or steal information.  
+
+Methodology:
+
+The first stage of this pen test was to gain access to the SDSC wireless network. First, using a poster that was left in public site, the password format was revealed to be EECS388-xxx. Using this information, we were able to create a python program to generate a wordlist with all possible password combinations. Next, using the publicly available tool aircrack-ng, we could use this word list and a SDSC wireless network traffic capture to crack the password to the wireless network. 
+
+Using this given password, we were able to successfully access the SuperDuperSketchyCorp wireless network. We then were trying to gain login details to successfully gain sever access. From the terminal, we entered the command “host superdupersketchycorp.com”, which revealed the IP address of the SDSC website to be 141.212.108.230. We then used the nmap tool to scan this IP address. This revealed to us two open ports, port 25 for smtp (or email) and port 80 (for http, noting this is not https and therefore not very secure). We now new the email server that SDSC relied upon, and would try to send a phishing email to learn a username and password combination the server. We knew the method for this email creation due to the poster that was left in public. We used netcat on port 25 of the SDSC.com ip address to create an email that appeared to be from a user in the corporation. We redirected the Reply-to to our private email address, where we received a reply with a valid password for our given username. 
+
+
+After gaining login details and connecting to this wifi, we used the nmap command to scan the network to find hosts and open ports. The command “nmap 192.168.0.0/24” revealed to us an IP address that we could use to ssh into the server. We then gained access to the server thorugh the login details from the previous part. We then had access to various folders and files that we could browse. 
+
+Findings:
+
+Hostnames and Ports:
+
+Nmap scan report for superdupersketchycorp.eecs.umich.edu (141.212.108.230)
+Host is up (0.0028s latency).
+Not shown: 998 filtered ports
+PORT   STATE SERVICE
+25/tcp open  smtp
+80/tcp open  http
+
+Nmap scan report for 192.168.0.1
+Host is up (0.028s latency).
+Not shown: 995 filtered ports
+PORT      STATE SERVICE
+22/tcp    open  ssh
+23/tcp    open  telnet
+80/tcp    open  http
+1900/tcp  open  upnp
+20005/tcp open  btx
+
+Nmap scan report for 192.168.0.25
+Host is up (0.054s latency).
+Not shown: 997 filtered ports
+PORT   STATE SERVICE
+22/tcp open  ssh
+25/tcp open  smtp
+80/tcp open  http
+
+Nmap scan report for 192.168.0.255
+Host is up (0.017s latency).
+All 1000 scanned ports on 192.168.0.255 are closed
+
+Encryption Findings:
+
+From the WIFI password cracking phase:
+
+#  BSSID              ESSID                     Encryption
+
+   1  98:DE:D0:78:F3:C3  SuperDuperSketchyCorp-eecs388  WPA (1 handshake, with PMKID)
+
+      [00:00:01] 6888/46655 keys tested (4132.45 k/s) 
+
+      Time left: 9 seconds                                      14.76%
+
+                          KEY FOUND! [ EECS388-5bo ]
+
+
+      Master Key     : 9B A2 B9 DB 44 EF 35 3E E7 FE 57 F8 A8 FA EE 0B 
+                       94 AA E2 06 0B 41 DE 66 FC CB 03 D4 9F 41 A3 CF 
+
+      Transient Key  : 24 93 4F 85 F4 67 04 80 8D 80 95 F3 1B 6F 70 21 
+                       EF 3E 1F F4 AD 03 8B AA 29 59 B8 00 00 00 00 00 
+                       00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+                       00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+
+      EAPOL HMAC     : 6F 8E A6 9A F8 D4 A3 9A 03 6F 9A 3E 6D A0 EA 96 
+
+
+WIFI PASSWORD = EECS388-5bo
+
+From Phishing Email:
+
+Username=jsschaf
+Password=Bbf2gHeb
+
+
+Credentials :
+Ben-nate Sprec, PhD
+
+
+Secrets:
+- there is a weekly security reading group at 12:30pm Tuesdays in the glass room on 3rd floor BBB
+- there is a weekly capture the flag club meeting at 4:30pm in BBB 3901
+
+TO access the server from outside the BBB you can ssh to superdupersketchycorp.com on tcp port 47923 and access the webserver at superdupersketchycorp.com. 
+
+
+Remediation:
+
+
+
+Penetration tests are sometimes called white hat attacks because in a pen test, the good guys are attempting to break in.
