@@ -1,0 +1,12 @@
+Overview A 2–3 sentence description of the objective of the pen test.
+
+Methodology A 1–2 paragraph description of the work you performed.
+
+Findings A description of any findings you may have made. Specifically, include details about the following:
+• Hostnames of any machines you gain access to during the pen test.
+• Any encryption keys for networks you gain access to.
+• Any credentials you are able to obtain (not including your own).
+• Other company secrets you accessed (briefly list each one).
+• [Extra credit] What is Bob hiding? (If you encounter a file or folder with “bonus” in its name, it pertains to the extra credit.)
+• [Extra credit] Crack as many hashed passwords as you can in the bonus file only.
+Remediation A 1–2 paragraph recommendation for what SuperDuperSketchyCorp should do to secure its remote office. You should address each of your findings.
