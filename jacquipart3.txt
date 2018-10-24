@@ -96,3 +96,81 @@ GOT AN EMAIL REPLY:
  Username=jsschaf
  Password=Bbf2gHeb
         
+
+
+FINDING WHICH PORT IS OPEN THAT WE CAN SSH INTO
+nmap 192.168.0.0/24
+
+Nmap scan report for 192.168.0.1
+Host is up (0.028s latency).
+Not shown: 995 filtered ports
+PORT      STATE SERVICE
+22/tcp    open  ssh
+23/tcp    open  telnet
+80/tcp    open  http
+1900/tcp  open  upnp
+20005/tcp open  btx
+
+Nmap scan report for 192.168.0.25
+Host is up (0.054s latency).
+Not shown: 997 filtered ports
+PORT   STATE SERVICE
+22/tcp open  ssh
+25/tcp open  smtp
+80/tcp open  http
+
+Nmap scan report for 192.168.0.255
+Host is up (0.017s latency).
+All 1000 scanned ports on 192.168.0.255 are closed
+
+Nmap done: 256 IP addresses (3 hosts up) scanned in 32.07 seconds
+
+SSH INTO ONE OF THE PORTS
+
+ssh jsschaf@192.168.0.1
+    Incorrect password
+    
+ssh jsschaf@192.168.0.25 -p 22
+jsschaf@192.168.0.25's password:
+Welcome to Ubuntu 16.04.4 LTS (GNU/Linux 4.13.0-1024-oem x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+159 packages can be updated.
+13 updates are security updates.
+
+*** System restart required ***
+Last login: Tue Oct 23 22:15:08 2018 from 192.168.0.77
+
+CHECKING FILES
+ls
+hash_cracking_bonus  OTP_bonus  tools  Welcome.txt
+
+OPENING WELCOME.TXT
+nano Welcome.txt
+Hello New Employee!
+
+Welcome to your first day on the job at SuperDuperSketchyCorp!
+
+We have weekly security reading group at 12:30pm on Tuesdays in the stained
+glass room on the 3rd floor of BBB. You are expected to read the weekly paper
+before attending. You can sign up for the mailing list here:
+https://mcommunity.umich.edu/#group:security-reading
+
+We also have weekly Capture the Flag Club meetings from 4:30-6:00pm on Fridays
+in BBB 3901. You can sign up for announcements related to the club here:
+https://mcommunity.umich.edu/#group:Wolverine%20Capture%20The%20Flag%20Club
+
+If you need to connect to this server from a university device instead of
+through our wireless access point, you can ssh to this server at
+superdupersketchycorp.com on tcp port 47923 and access the web server at
+www.superdupersketchycorp.com. You will not be able to access the server
+from outside the UM campus networks.
+
+Welcome to the team. I'm sure you'll be very happy here.
+
+Ben-nate Sprec, PhD
+President
+SuperDuperSketchyCorp
