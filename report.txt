@@ -12,6 +12,13 @@ Using this given password, we were able to successfully access the SuperDuperSke
 
 After gaining login details and connecting to this wifi, we used the nmap command to scan the network to find hosts and open ports. The command “nmap 192.168.0.0/24” revealed to us an IP address that we could use to ssh into the server. We then gained access to the server thorugh the login details from the previous part. We then had access to various folders and files that we could browse. 
 
+Steps to find ADMIN details:
+
+
+For Extra Credit:
+- First, recognised that hashlist was comprised of md5 hashes. Then, found an online list of common passwords and computed their md5 hashes. Then cross referenced this with the hashlist to find matches. 
+- XOR’d the two encrypted messages to create one file, which was the original msg1 xor msg2. Then used guess and check because we knew some words. For example, I guessed that one message would start with Alice, and by xor’ing Alice with the newfile, I could work out that the other message started with Bob. Kept repeated this process with more and more letters/words until the whole message was revealed. 
+
 Findings:
 
 Hostnames and Ports:
@@ -78,34 +85,43 @@ From Phishing Email:
 Username=jsschaf
 Password=Bbf2gHeb
 
+Username = kerrywu
+Password = RDU4MGBv
 
-Credentials :
-Ben-nate Sprec, PhD
-
+Admin Credentials:
+    mattley     388roxmysocks
 
 Secrets:
-- there is a weekly security reading group at 12:30pm Tuesdays in the glass room on 3rd floor BBB
-- there is a weekly capture the flag club meeting at 4:30pm in BBB 3901
 
-TO access the server from outside the BBB you can ssh to superdupersketchycorp.com on tcp port 47923 and access the webserver at superdupersketchycorp.com. 
+- Layoffs are coming! SDSC will be laying off 30% of the workforce come March.
 
+- The password to the executive lounge has changed.
+    Please use 'h4ppie8rthDay'.
+
+Cracked Passwords Found:
+a66dfe31e061783401cf6d1d0d239efc MD5 : testuserpass
+5b83a5f92603efcdb65d47c9a2991d6b MD5 : damn
+41fcba09f2bdcdf315ba4119dc7978dd MD5 : cccc
+9785859a2942cc40796079103da74459 MD5 : password12321
+4297f44b13955235245b2497399d7a93 MD5 : 123123
+21ef05aed5af92469a50b35623d52101 MD5 : 010101
+01cfcd4f6b8770febfb40cb906715822 MD5 : 54321
+cf0387291504d78a6ac7a13147d2f229 MD5 : patriots
+f30aa7a662c728b7407c54ae6bfd27d1 MD5 : hello123
+a029d0df84eb5549c641e04a9ef389e5 MD5 : mypass
+c44a471bd78cc6c2fea32b9fe028d30a MD5 : asdfghjkl
+24eb05d18318ac2db8b2b959315d10f2 MD5 : coffee
+e99a18c428cb38d5f260853678922e03 MD5 : abc123
+7fa8282ad93047a4d6fe6111c93b308a MD5 : 1111111
+e2fc714c4727ee9395f324cd2e7f331f MD5 : abcd
+4a7d1ed414474e4033ac29ccb8653d9b MD5 : 0000
+e2fc714c4727ee9395f324cd2e7f331f MD5 : abcd
+
+Bob’s Secret:
+Bob is a performer, with video evidence of his concert at https://youtu.be/EfKMHuwQxek. But… he doesnt want anyone knowing about his passion. 
 
 Remediation:
 
 
 
-Penetration tests are sometimes called white hat attacks because in a pen test, the good guys are attempting to break in.
-=======
-Overview A 2–3 sentence description of the objective of the pen test.
-
-Methodology A 1–2 paragraph description of the work you performed.
-
-Findings A description of any findings you may have made. Specifically, include details about the following:
-• Hostnames of any machines you gain access to during the pen test.
-• Any encryption keys for networks you gain access to.
-• Any credentials you are able to obtain (not including your own).
-• Other company secrets you accessed (briefly list each one).
-• [Extra credit] What is Bob hiding? (If you encounter a file or folder with “bonus” in its name, it pertains to the extra credit.)
-• [Extra credit] Crack as many hashed passwords as you can in the bonus file only.
-Remediation A 1–2 paragraph recommendation for what SuperDuperSketchyCorp should do to secure its remote office. You should address each of your findings.
 

@@ -2,6 +2,9 @@
 1. Multiple devices are connected to the local network. What are their MAC and IP addresses?
 
 24-bit block ip addresses have the range 10.0.0.0 - 10.255.255.255 therefore the devices on the local network would have the IP address 10.0.2.X. 
+Using a DNS filter, there are only 3 different sources:
+To get MAC address: statistics->conversations->ethernet
+
 MAC                     IP address
 00:26:08:e5:66:07       10.0.2.1
 04:0c:ce:d8:0f:fa       10.0.2.2
@@ -11,35 +14,30 @@ MAC                     IP address
 # Question 2
 2. What type of network does this appear to be (e.g., a large corporation, an ISP backbone,etc.)? Point to evidence from the trace that supports this.
 
-This network appears to be a home network. He seems to be viewing to facebook, twitter, rollingstones, sesamestreet, pbskids, tumblr and many nytimes links viewing the blog, home theater and movie webpages.
+This network appears to be a home network. The user seems to be viewing facebook, twitter, rollingstones, sesamestreet, pbskids, tumblr and many nytimes links viewing the blog, home theater and movie webpages.
 
 # Question 3
-3. One of the clients connects to an FTP server during the trace.
 
-(a) What is the DNS hostname of the server it connects to?
 3a. At no. 14602 there is a FTP server call, when looking up we find the nearest DNS call at no. 14508 which allows us to see a FTP connection to 194.109.21.66 to address dl.xs4all.nl
 
-(b) Is the connection using Active or Passive FTP?
 3b. Using the search "frame contains "PORT (or PASV)"" searches the info section to look for the PORT request. A PORT indicated an active FTP while a PASV indicates a passive FTP. Therefore the connection is an active FTP.
 
-(c) Based on the packet capture, what’s one major vulnerability of the FTP protocol?
-3c. Looking at number 13745, the server asks the user to login with their USER and PASS. A quick search using the "frame contains" expression shows us that they login with username laticia.langhans at no. 14634 and password goblue3859 at no. 16502 and they are all sent as plain text, meaning anyone with access to the network would be able to see your username and password in plaintext.
+3c. Looking at number 13745, the server asks the user to login with their USER and PASS. A quick search using the "frame contains" expression shows us that they login with username laticia.langhans at no. 14634 and password goblue3859 at no. 16502 and they are all sent as plain text, meaning anyone with access to the network would be able to see your username and password in plaintext. This leak of information is a huge vulnerability as attackers could gain access to privileged information.  
 
-
-(d) Name at least two network protocols that can be used in place of FTP to provide secure file transfer.
-3d. SSH File Transfer Protocol (SFTP) and (FTPS)
+3d. SFTP is secure file transfer protocol or SSH File Transfer Protocol and is a good alternative. 
+FTPS is an extension onto FTP that adds support for transport layer security (TLS) and is another secure alternative. 
 
 # Question 4
-4. The trace shows that at least one of the clients makes HTTPS connections to sites other than Facebook. Pick one of these connections and answer the following:
 
-(a) What is the domain name of the site the client is connecting to?
-4a. Using tcp.port == 443 you can isolate all of the https traffic. We can then isolate only those connections made by our user using the command ip.src == 10.0.2.0/24. Then under edit, preferences, name resolutions select "Resolve network (IP) address" and when sorting info and looking for "Client Hello" we can see that our user is going to pnc.com (no. 21577) and evernote (no. 2456) as two examples.
+4a. https = port443. So, using tcp.port == 443 you can isolate all of the https traffic. Using the filter tcp.port == 443 && ip.dst == 74.125.225.128 we can see all access from 10.0.2.2 to youtube.com through https. 
 
-(b) Is there any way the HTTPS server can protect against the leak of information in (a)?
-4b.No because you cannot hide the IP of the server which you wish to ping. 
+4b.No, the destination IP address will always be visible in a TCP connection. We can use that to look up the domain name using resolved addresses, which tells us that the domain is youtube.com. 
 
-(c) During the TLS handshake, the client provides a list of supported cipher suites. List the cipher suites and name the crypto algorithms used for each.
-4c. At no. 21577 Cipher Suites (36 suites)
+4c. Packet:
+2219	28.782045	10.0.2.2	youtube.com	TLSv1.1	247	Client Hello
+
+Cipher Suites (36 suites)
+CRYPTO Algorithm SHA:
     Cipher Suite: TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA (0xc00a)
     Cipher Suite: TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA (0xc014)
     Cipher Suite: TLS_DHE_RSA_WITH_CAMELLIA_256_CBC_SHA (0x0088)
@@ -63,11 +61,10 @@ This network appears to be a home network. He seems to be viewing to facebook, t
     Cipher Suite: TLS_ECDH_RSA_WITH_AES_128_CBC_SHA (0xc00e)
     Cipher Suite: TLS_ECDH_ECDSA_WITH_RC4_128_SHA (0xc002)
     Cipher Suite: TLS_ECDH_ECDSA_WITH_AES_128_CBC_SHA (0xc004)
-    Cipher Suite: TLS_RSA_WITH_SEED_CBC_SHA (0x0096)
     Cipher Suite: TLS_RSA_WITH_CAMELLIA_128_CBC_SHA (0x0041)
     Cipher Suite: TLS_RSA_WITH_RC4_128_SHA (0x0005)
-    Cipher Suite: TLS_RSA_WITH_RC4_128_MD5 (0x0004)
     Cipher Suite: TLS_RSA_WITH_AES_128_CBC_SHA (0x002f)
+    Cipher Suite: TLS_RSA_WITH_SEED_CBC_SHA (0x0096)
     Cipher Suite: TLS_ECDHE_ECDSA_WITH_3DES_EDE_CBC_SHA (0xc008)
     Cipher Suite: TLS_ECDHE_RSA_WITH_3DES_EDE_CBC_SHA (0xc012)
     Cipher Suite: TLS_DHE_RSA_WITH_3DES_EDE_CBC_SHA (0x0016)
@@ -77,22 +74,26 @@ This network appears to be a home network. He seems to be viewing to facebook, t
     Cipher Suite: SSL_RSA_FIPS_WITH_3DES_EDE_CBC_SHA (0xfeff)
     Cipher Suite: TLS_RSA_WITH_3DES_EDE_CBC_SHA (0x000a)
 
-(d) Are any of these cipher suites worrisome from a security or privacy perspective? Why?
-4d. Cipher Suite: TLS_RSA_WITH_RC4_128_MD5 (0x0004) because MD5 has been broken
 
-(e) What cipher suite does the server choose for the connection?
-4e. no. 21581 responds "Server Hello" with Cipher Suite: TLS_RSA_WITH_RC4_128_MD5 (0x0004)
+MD5 Encryptions:
+    Cipher Suite: TLS_RSA_WITH_RC4_128_MD5 (0x0004)
+
+4d. Yes, Cipher Suite: TLS_RSA_WITH_RC4_128_MD5 (0x0004)is a cause for concern because it uses the md5 crypto algorithm, which is known to be broken. 
+
+4e. 
+Packet:
+2221	28.789898	youtube.com	10.0.2.2	TLSv1.1	1484	Server Hello
+
+The server responds Hello with:
+Cipher Suite: TLS_ECDHE_RSA_WITH_RC4_128_SHA (0xc011)
 
 # Question 5
-5. One of the clients makes a number of requests to Facebook.
-(a) Even though logins are processed over HTTPS, what is insecure about the way the browser is authenticated to Facebook?
-5a. The browser is still using HTTP GET requests no. 7753
 
-(b) How would this let an attacker impersonate the user on Facebook?
-5b. An attacker could intercept the packet and modify the plaintext HTTP request in order to impersonate the user.
+5a. The browser is still using HTTP GET requests no. 7753.
 
-(c) How can users protect themselves against this type of attack?
-5c. Use a browser or plugin that forces an https connection
+5b.
+By using the Hypertext Transfer Protocol, the requests is in plaintext and can be read by attackers. Data could therefore be intercepted by attackers. HTTPS encrypts data, which is why it is the preferred method.
 
-(d) What did the user do while on the Facebook site?
+5c. Use a browser or plugin that forces an https connection. Users should always send requests using HTTPS so that data is encrypted. Websites could also enforce this for security. 
+
 5d. Using the filter "ip.dst == 69.171.229.0/16 && frame contains "GET"" we can see that he likes a page, goes home, searches for user "zakir durum", messages him, sends an attachment, checks notifications. 
