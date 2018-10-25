@@ -1,10 +1,6 @@
 # Question 1
-1. Multiple devices are connected to the local network. What are their MAC and IP addresses?
 
-24-bit block ip addresses have the range 10.0.0.0 - 10.255.255.255 therefore the devices on the local network would have the IP address 10.0.2.X. 
-Using a DNS filter, there are only 3 different sources:
-To get MAC address: statistics->conversations->ethernet
-
+1. 24-bit block ip addresses have the range 10.0.0.0 - 10.255.255.255 therefore the devices on the local network would have the IP address 10.0.2.X.  Using a DNS filter, there are only 3 different sources: To get MAC address: statistics->conversations->ethernet
 MAC                     IP address
 00:26:08:e5:66:07       10.0.2.1
 04:0c:ce:d8:0f:fa       10.0.2.2
@@ -12,9 +8,8 @@ MAC                     IP address
 
 
 # Question 2
-2. What type of network does this appear to be (e.g., a large corporation, an ISP backbone,etc.)? Point to evidence from the trace that supports this.
 
-This network appears to be a home network. The user seems to be viewing facebook, twitter, rollingstones, sesamestreet, pbskids, tumblr and many nytimes links viewing the blog, home theater and movie webpages.
+2. This network appears to be a home network. The user seems to be viewing facebook, twitter, rollingstones, sesamestreet, pbskids, tumblr and many nytimes links viewing the blog, home theater and movie webpages.
 
 # Question 3
 
@@ -22,16 +17,15 @@ This network appears to be a home network. The user seems to be viewing facebook
 
 3b. Using the search "frame contains "PORT (or PASV)"" searches the info section to look for the PORT request. A PORT indicated an active FTP while a PASV indicates a passive FTP. Therefore the connection is an active FTP.
 
-3c. Looking at number 13745, the server asks the user to login with their USER and PASS. A quick search using the "frame contains" expression shows us that they login with username laticia.langhans at no. 14634 and password goblue3859 at no. 16502 and they are all sent as plain text, meaning anyone with access to the network would be able to see your username and password in plaintext. This leak of information is a huge vulnerability as attackers could gain access to privileged information.  
+3c. Looking at no. 13745, the server asks the user to login with their USER and PASS. A quick search using the "frame contains" expression shows us that they login with username laticia.langhans at no. 14634 and password goblue3859 at no. 16502 and they are all sent as plain text, meaning anyone with access to the network would be able to see your username and password in plaintext. This leak of information is a huge vulnerability as attackers could gain access to privileged information.  
 
-3d. SFTP is secure file transfer protocol or SSH File Transfer Protocol and is a good alternative. 
-FTPS is an extension onto FTP that adds support for transport layer security (TLS) and is another secure alternative. 
+3d. SFTP is secure file transfer protocol or SSH File Transfer Protocol and is a good alternative. FTPS is an extension onto FTP that adds support for transport layer security (TLS) and is another secure alternative. 
 
 # Question 4
 
 4a. https = port443. So, using tcp.port == 443 you can isolate all of the https traffic. Using the filter tcp.port == 443 && ip.dst == 74.125.225.128 we can see all access from 10.0.2.2 to youtube.com through https. 
 
-4b.No, the destination IP address will always be visible in a TCP connection. We can use that to look up the domain name using resolved addresses, which tells us that the domain is youtube.com. 
+4b. No, the destination IP address will always be visible in a TCP connection. We can use that to look up the domain name using resolved addresses, which tells us that the domain is youtube.com. 
 
 4c. Packet:
 2219	28.782045	10.0.2.2	youtube.com	TLSv1.1	247	Client Hello
@@ -91,8 +85,7 @@ Cipher Suite: TLS_ECDHE_RSA_WITH_RC4_128_SHA (0xc011)
 
 5a. The browser is still using HTTP GET requests no. 7753.
 
-5b.
-By using the Hypertext Transfer Protocol, the requests is in plaintext and can be read by attackers. Data could therefore be intercepted by attackers. HTTPS encrypts data, which is why it is the preferred method.
+5b. By using the Hypertext Transfer Protocol, the requests is in plaintext and can be read by attackers. Data could therefore be intercepted by attackers. HTTPS encrypts data, which is why it is the preferred method.
 
 5c. Use a browser or plugin that forces an https connection. Users should always send requests using HTTPS so that data is encrypted. Websites could also enforce this for security. 
 
